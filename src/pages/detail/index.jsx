@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import api from "../../utils/api";
 import Banner from "./Banner";
 import Content from "./Content";
@@ -8,6 +8,7 @@ import VideoList from "./VideoList";
 import Button from "./Button";
 import Loader from "../../Components/Loader";
 import Error from "../../Components/error";
+import { RiArrowLeftWideLine } from "react-icons/ri";
 
 
 
@@ -41,9 +42,17 @@ const Detail = () => {
   
   return (
     <div>
+       <div className="mb-5 flex justify-between">
+       <Link to={".."} 
+        className="bg-gray-600 py-2 px-4 rounded hover:bg-gray-500 transition flex gap-2 items-center">
+        <RiArrowLeftWideLine className="text-xl" />
+        Geri
+        </Link>
 
-       {/*izleme listesi butonu */}
-        <Button movie={movie} />
+         {/*izleme listesi butonu */}
+         <Button movie={movie} />
+       </div>
+      
         {/* üst resim  alan */}
        <Banner movie={movie}/>
 
@@ -54,7 +63,7 @@ const Detail = () => {
        {movie.credits.cast ? <ActorList actors={movie.credits.cast}/> : <div>Filme ait oyuncu bilgisi bulunamadı.</div>}
 
        {/*fragman listesi */}
-      {movie.credits.results? <VideoList videos={movie.videos.results}/>: <div>video yok</div>}
+      {movie.videos.results? <VideoList videos={movie.videos.results}/>: <div>video yok</div>}
     </div>
   );
   

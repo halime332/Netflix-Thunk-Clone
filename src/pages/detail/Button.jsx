@@ -1,28 +1,42 @@
-import { Link } from "react-router-dom";
-import { RiArrowLeftWideLine } from "react-icons/ri";
 import { MdBookmarkAdd } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleFavorite } from "../../redux/actions";
 
 
+
+
 const Button = ({movie}) => {
+  const {favorites} = useSelector((store)=>store.favorites);
+
  const dispatch =useDispatch();
 
-  const handleClick =() =>{
-    dispatch(toggleFavorite( movie,true));
-  }
+
+ // ekrana basılan film favorileri arasında va mı
+ const isFav = favorites.find((item)=>item.id ===movie.id);
+
+ //favoride zaten varsa 2. param false yoksa true olmalı
+ const handleClick =() =>{
+  dispatch(toggleFavorite(movie , !isFav ));
+
+};
+
   return (
   
-    <div className="mb-5 flex justify-between ">
-        <Link to={".."} className="bg-gray-600 py-2 px-4 rounded hover:bg-gray-500 transition flex gap-2 items-center">
-        <RiArrowLeftWideLine className="text-xl" />
-        Geri
-        </Link>
-        <button  onClick={handleClick} className="bg-blue-600 py-2 px-4 rounded hover:bg-blue-500 transition flex gap-2 items-center">
-            <MdBookmarkAdd  className="text-xl"/>
-            İzleme Listesi
+        <button  onClick={handleClick} className="bg-blue-600 py-2 px-4 rounded hover:bg-blue-500 transition flex gap-2 items-center"
+           >
+            {isFav ? (
+              <>
+               <MdBookmarkRemove className="text-xl" />
+                İzleme listesinden çıkar</>
+              ) :( 
+              <>
+              <MdBookmarkAdd  className="text-xl"/>
+              İzleme Listesine Ekle
+            </>)
+            }
+           
         </button>
-    </div>
+  
   );
 };
 

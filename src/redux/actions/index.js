@@ -23,7 +23,7 @@ export const getGenres = () => (dispatch) => {
         .catch((err) =>
             dispatch({
                 type: ActionTypes.GENRE_ERROR,
-                payload: err.message
+                payload: err.message,
             })
         );
 
@@ -35,7 +35,7 @@ export const getFavorites = () => (dispatch) => {
 
     dispatch({ type: ActionTypes.FAV_LOADING });
     api
-        .get("/account/21748910/favorite/movies")
+        .get("/account/21748910/favorite/movie")
         .then((res) =>
             dispatch({
                 type: ActionTypes.FAV_SUCCESS,
@@ -45,20 +45,28 @@ export const getFavorites = () => (dispatch) => {
         .catch((err) =>
             dispatch({
                 type: ActionTypes.FAV_ERROR,
-                payload: err,
+                payload: err.message
             })
         );
 };
 
 // todo  favorilere ekle
 export const toggleFavorite = (movie, isAdd) => (dispatch) => {
-    console.log(movie);
+
     api
-        .post(`/account/21748910/favorite/movies`, {
+        .post(`/account/21748910/favorite`, {
             media_type: "movie",
-            media_id: "movie.id",
+            media_id: movie.id,
             favorite: isAdd,
         })
-        .then((res) => console.log(res.data))
+        .then(() => {
+            //isAdd true ise api'a da eklendiği için reducer'a ekleem haberi veriyoruz
+            // isAdd false ise api'den kaldırdığımız için reducer'a silme haberi gönderiyoruz
+            isAdd
+                ? dispatch({ type: ActionTypes.ADD_TO_FAV, payload: movie })
+                :
+                dispatch({ type: ActionTypes.REMOVE_FAV, payload: movie });
+        })
+
         .catch((err) => console.log(err));
 };

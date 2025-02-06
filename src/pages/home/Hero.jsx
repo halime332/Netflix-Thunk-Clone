@@ -1,9 +1,11 @@
 import { useEffect ,useState} from "react";
 import api from "../../utils/api";
-import Loader from "../../components/loader";
-import Error from "../../components/error";
+import Loader from "../../components/loader/index";
+import Error from "../../components/error/index";
 import React from "react";
 import { baseImgUrl } from "../../utils/constants";
+import Button from "../detail/Button";
+import { Link } from "react-router-dom";
 
 
 
@@ -45,7 +47,8 @@ const Hero = () => {
            <span className="text-yellow-400 ms-2 font-semibold">{movie.vote_average.toFixed(2)}</span>
          </p>
          <div className="flex gap-5">
-              <button className="p-2 bg-red-600 rounded transition hover:bg-red-700">Film İzle</button>
+              <Link to={`/movie/${movie.id}`} className="p-2 bg-red-600 rounded transition hover:bg-red-700">Film İzle</Link>
+              <Button movie={movie}/>
               <button className="p-2 bg-blue-600 rounded transition hover:bg-blue-700">Listeye Ekle</button>
           </div>
       </div>

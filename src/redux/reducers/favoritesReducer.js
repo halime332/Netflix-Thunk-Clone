@@ -17,10 +17,14 @@ const favoritesReducer = (state = initialState, action) => {
         case ActionTypes.FAV_SUCCESS:
             return { isLoading: false, error: null, favorites: action.payload };
 
-        case "a":
-            return state;
-        case "b":
-            return state;
+        case ActionTypes.ADD_TO_FAV:
+            const updated = state.favorites.concat(action.payload);
+            return { ...state, favorites: updated };
+
+        case ActionTypes.REMOVE_FAV:
+            const filtred = state.favorites.filter((i) => i.id !== action.payload.id);
+
+            return { ...state, favorites: filtred };
         default:
             return state;
     }
